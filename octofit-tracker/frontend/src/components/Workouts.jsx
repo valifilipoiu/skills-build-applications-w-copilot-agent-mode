@@ -1,16 +1,9 @@
 import { useEffect, useState } from 'react';
 
-const WORKOUTS_API = '/api/workouts/';
-
-function getApiBaseUrl() {
-  const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
-
-  if (codespaceName && codespaceName.trim() !== '') {
-    return `https://${codespaceName}-8000.app.github.dev`;
-  }
-
-  return 'http://localhost:8000';
-}
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+const WORKOUTS_API = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/workouts/`
+  : 'http://localhost:8000/api/workouts/';
 
 async function fetchJson(url, options = {}) {
   const response = await fetch(url, options);
@@ -32,7 +25,7 @@ export default function Workouts() {
 
     async function load() {
       try {
-        const payload = await fetchJson(`${getApiBaseUrl()}${WORKOUTS_API}`, { signal: controller.signal });
+        const payload = await fetchJson(WORKOUTS_API, { signal: controller.signal });
         const data = Array.isArray(payload) ? payload : payload.results ?? [];
         setItems(data);
       } catch (err) {

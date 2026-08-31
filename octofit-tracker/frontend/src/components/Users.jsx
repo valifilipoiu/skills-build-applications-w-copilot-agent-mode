@@ -1,16 +1,9 @@
 import { useEffect, useState } from 'react';
 
-const USERS_API = '/api/users/';
-
-function getApiBaseUrl() {
-  const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
-
-  if (codespaceName && codespaceName.trim() !== '') {
-    return `https://${codespaceName}-8000.app.github.dev`;
-  }
-
-  return 'http://localhost:8000';
-}
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+const USERS_API = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/users/`
+  : 'http://localhost:8000/api/users/';
 
 async function fetchJson(url, options = {}) {
   const response = await fetch(url, options);
@@ -32,7 +25,7 @@ export default function Users() {
 
     async function load() {
       try {
-        const payload = await fetchJson(`${getApiBaseUrl()}${USERS_API}`, { signal: controller.signal });
+        const payload = await fetchJson(USERS_API, { signal: controller.signal });
         const data = Array.isArray(payload) ? payload : payload.results ?? [];
         setItems(data);
       } catch (err) {

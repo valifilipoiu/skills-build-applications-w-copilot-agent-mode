@@ -1,16 +1,9 @@
 import { useEffect, useState } from 'react';
 
-const ACTIVITIES_API = '/api/activities/';
-
-function getApiBaseUrl() {
-  const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
-
-  if (codespaceName && codespaceName.trim() !== '') {
-    return `https://${codespaceName}-8000.app.github.dev`;
-  }
-
-  return 'http://localhost:8000';
-}
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+const ACTIVITIES_API = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/activities/`
+  : 'http://localhost:8000/api/activities/';
 
 async function fetchJson(url, options = {}) {
   const response = await fetch(url, options);
@@ -32,7 +25,7 @@ export default function Activities() {
 
     async function load() {
       try {
-        const payload = await fetchJson(`${getApiBaseUrl()}${ACTIVITIES_API}`, { signal: controller.signal });
+        const payload = await fetchJson(ACTIVITIES_API, { signal: controller.signal });
         const data = Array.isArray(payload) ? payload : payload.results ?? [];
         setItems(data);
       } catch (err) {
