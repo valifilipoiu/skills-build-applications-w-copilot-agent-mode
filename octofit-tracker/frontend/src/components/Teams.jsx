@@ -30,7 +30,7 @@ export default function Teams() {
 
     async function load() {
       try {
-        const payload = await fetchJson(`${getApiBaseUrl()}/api/teams`, { signal: controller.signal });
+        const payload = await fetchJson(`${getApiBaseUrl()}/api/teams/`, { signal: controller.signal });
         const data = Array.isArray(payload) ? payload : payload.results ?? [];
         setItems(data);
       } catch (err) {
