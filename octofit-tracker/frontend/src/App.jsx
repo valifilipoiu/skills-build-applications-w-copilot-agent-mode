@@ -1,19 +1,24 @@
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom'
+import Activities from './components/Activities.jsx'
+import Leaderboard from './components/Leaderboard.jsx'
+import Teams from './components/Teams.jsx'
+import Users from './components/Users.jsx'
+import Workouts from './components/Workouts.jsx'
 import './App.css'
 
 function HomePage() {
   return (
     <div className="container py-5">
-      <div className="row align-items-center g-4">
+      <div className="row align-items-center g-4 mb-5">
         <div className="col-lg-7">
           <p className="text-uppercase fw-semibold text-primary mb-2">OctoFit Tracker</p>
           <h1 className="display-4 fw-bold mb-3">Train smarter, compete together.</h1>
           <p className="lead text-secondary mb-4">
-            A modern activity tracker for workouts, teams, leaderboards, and progress insights.
+            Monitor users, teams, activity, and performance across your modern fitness ecosystem.
           </p>
           <div className="d-flex gap-3 flex-wrap">
-            <button className="btn btn-primary btn-lg">View leaderboard</button>
-            <button className="btn btn-outline-primary btn-lg">Track activity</button>
+            <NavLink className="btn btn-primary btn-lg" to="/leaderboard">View leaderboard</NavLink>
+            <NavLink className="btn btn-outline-primary btn-lg" to="/activities">Track activity</NavLink>
           </div>
         </div>
         <div className="col-lg-5">
@@ -29,21 +34,10 @@ function HomePage() {
           </div>
         </div>
       </div>
-    </div>
-  )
-}
 
-function LeaderboardPage() {
-  return (
-    <div className="container py-5">
-      <h2 className="mb-4">Leaderboard</h2>
-      <div className="list-group">
-        {['Ava', 'Noah', 'Mila', 'Leo', 'Ivy'].map((name, index) => (
-          <div className="list-group-item d-flex justify-content-between align-items-center" key={name}>
-            <span>{index + 1}. {name}</span>
-            <span className="badge bg-primary rounded-pill">{9000 - index * 300}</span>
-          </div>
-        ))}
+      <div className="row g-4">
+        <div className="col-md-6"><Users /></div>
+        <div className="col-md-6"><Activities /></div>
       </div>
     </div>
   )
@@ -55,16 +49,24 @@ function App() {
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
         <div className="container">
           <span className="navbar-brand fw-bold">OctoFit</span>
-          <div className="navbar-nav ms-auto">
+          <div className="navbar-nav ms-auto gap-3">
             <NavLink className="nav-link" to="/">Home</NavLink>
+            <NavLink className="nav-link" to="/users">Users</NavLink>
+            <NavLink className="nav-link" to="/teams">Teams</NavLink>
+            <NavLink className="nav-link" to="/activities">Activities</NavLink>
             <NavLink className="nav-link" to="/leaderboard">Leaderboard</NavLink>
+            <NavLink className="nav-link" to="/workouts">Workouts</NavLink>
           </div>
         </div>
       </nav>
 
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/leaderboard" element={<LeaderboardPage />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/teams" element={<Teams />} />
+        <Route path="/activities" element={<Activities />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/workouts" element={<Workouts />} />
       </Routes>
     </BrowserRouter>
   )
