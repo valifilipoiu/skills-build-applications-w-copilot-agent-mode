@@ -48,10 +48,11 @@ app.get('/api/workouts', async (_req, res) => {
 
 export async function startServer() {
   const port = Number(process.env.PORT || 8000);
+  const host = process.env.HOST || '0.0.0.0';
 
   await connectToDatabase();
-  return app.listen(port, () => {
-    console.log(`OctoFit API listening on http://localhost:${port}`);
+  return app.listen(port, host, () => {
+    console.log(`OctoFit API listening on http://${host}:${port}`);
   });
 }
 
