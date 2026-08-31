@@ -10,13 +10,15 @@ const app = express();
 
 app.use(express.json());
 
-const codespaceName = process.env.CODESPACE_NAME;
-const baseUrl = codespaceName
-  ? `https://${codespaceName}-8000.app.github.dev`
-  : 'http://localhost:8000';
+export function getApiBaseUrl() {
+  const codespaceName = process.env.CODESPACE_NAME;
+  return codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev`
+    : 'http://localhost:8000';
+}
 
 app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', baseUrl, service: 'octofit-backend' });
+  res.json({ status: 'ok', baseUrl: getApiBaseUrl(), service: 'octofit-backend' });
 });
 
 app.get('/api/users', async (_req, res) => {
@@ -45,9 +47,11 @@ app.get('/api/workouts', async (_req, res) => {
 });
 
 export async function startServer() {
+  const port = Number(process.env.PORT || 8000);
+
   await connectToDatabase();
-  return app.listen(8000, () => {
-    console.log(`OctoFit API listening on http://localhost:8000`);
+  return app.listen(port, () => {
+    console.log(`OctoFit API listening on http://localhost:${port}`);
   });
 }
 
