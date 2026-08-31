@@ -1,14 +1,6 @@
-import express from 'express';
+import { startServer } from './app.js';
 
-const app = express();
-const port = 8000;
-
-app.use(express.json());
-
-app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', service: 'octofit-backend' });
-});
-
-app.listen(port, () => {
-  console.log(`OctoFit API listening on http://localhost:${port}`);
+startServer().catch((error) => {
+  console.error('Failed to start server:', error);
+  process.exit(1);
 });
