@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+const LEADERBOARD_API = '/api/leaderboard/';
+
 function getApiBaseUrl() {
   const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
 
@@ -30,7 +32,7 @@ export default function Leaderboard() {
 
     async function load() {
       try {
-        const payload = await fetchJson(`${getApiBaseUrl()}/api/leaderboard/`, { signal: controller.signal });
+        const payload = await fetchJson(`${getApiBaseUrl()}${LEADERBOARD_API}`, { signal: controller.signal });
         const data = Array.isArray(payload) ? payload : payload.results ?? [];
         setItems(data);
       } catch (err) {

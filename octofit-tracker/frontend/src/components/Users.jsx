@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+const USERS_API = '/api/users/';
+
 function getApiBaseUrl() {
   const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
 
@@ -30,7 +32,7 @@ export default function Users() {
 
     async function load() {
       try {
-        const payload = await fetchJson(`${getApiBaseUrl()}/api/users/`, { signal: controller.signal });
+        const payload = await fetchJson(`${getApiBaseUrl()}${USERS_API}`, { signal: controller.signal });
         const data = Array.isArray(payload) ? payload : payload.results ?? [];
         setItems(data);
       } catch (err) {
